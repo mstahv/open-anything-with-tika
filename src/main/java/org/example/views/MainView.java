@@ -48,25 +48,20 @@ public class MainView extends VerticalLayout {
     }
 
     private void previewContent(String originalFileName, File tmpFile) {
-        if (tmpFile.length() > 10 * MB) {
-            // This should also be checked by Spring Boot
-            result.add(new H2("Input tmpFile too large, try less than 10MB"));
-        } else {
-            AutoDetectParser parser = new AutoDetectParser();
-            BodyContentHandler handler = new BodyContentHandler();
-            Metadata metadata = new Metadata();
-            metadata.set(TikaCoreProperties.RESOURCE_NAME_KEY, originalFileName);
-            metadata.set("File size", tmpFile.length() + "B");
-            try (InputStream stream = TikaInputStream.get(tmpFile)) {
-                parser.parse(stream, handler, metadata);
-                displayParsingResults(metadata, handler);
-            } catch (WriteLimitReachedException ex) {
-                Notification.show(ex.getMessage());
-                displayParsingResults(metadata, handler);
-            } catch (Exception ex) {
-                result.add(new H2("Parsing Data failed: " + ex.getMessage()));
-                throw new RuntimeException(ex);
-            }
+        AutoDetectParser parser = new AutoDetectParser();
+        BodyContentHandler handler = new BodyContentHandler();
+        Metadata metadata = new Metadata();
+        metadata.set(TikaCoreProperties.RESOURCE_NAME_KEY, originalFileName);
+        metadata.set("File size", tmpFile.length() + "B");
+        try (InputStream stream = TikaInputStream.get(tmpFile)) {
+            parser.parse(stream, handler, metadata);
+            displayParsingResults(metadata, handler);
+        } catch (WriteLimitReachedException ex) {
+            Notification.show(ex.getMessage());
+            displayParsingResults(metadata, handler);
+        } catch (Exception ex) {
+            result.add(new H2("Parsing Data failed: " + ex.getMessage()));
+            throw new RuntimeException(ex);
         }
     }
 
