@@ -1,12 +1,9 @@
 package org.example.views;
 
-import com.vaadin.flow.component.DetachEvent;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Pre;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.upload.SucceededEvent;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.FileBuffer;
 import com.vaadin.flow.router.Route;
@@ -26,7 +23,7 @@ public class MainView extends VerticalLayout {
     static final int MB = 1024 * 1024;
 
     VerticalLayout result = new VerticalLayout();
-    Upload u = new Upload();
+    Upload upload = new Upload();
 
     public MainView() {
         add(new RichText().withMarkDown("""
@@ -37,11 +34,11 @@ public class MainView extends VerticalLayout {
                 can parse a number of different file formats like docs, spreadsheets, 
                 images, PDFs, including compressed files. 1M as max file size (Spring Boot default).
                 """));
-        add(u, result);
+        add(upload, result);
 
         FileBuffer r = new FileBuffer();
-        u.setReceiver(r);
-        u.addSucceededListener(e -> {
+        upload.setReceiver(r);
+        upload.addSucceededListener(e -> {
             File tmpFile = r.getFileData().getFile();
             String fileNameFromBrowser = e.getFileName();
             previewContent(fileNameFromBrowser, tmpFile);
