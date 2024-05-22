@@ -35,7 +35,7 @@ public class MainView extends VerticalLayout {
                 This app let's you update files, parses their content with Apache Tika 
                 and displays the extracted metadata & text in your the browsers. Tika 
                 can parse a number of different file formats like docs, spreadsheets, 
-                images, PDFs, including compressed files. 10M as max file size.
+                images, PDFs, including compressed files. 1M as max file size (Spring Boot default).
                 """));
         add(u, result);
 
