@@ -96,6 +96,7 @@
                     <name>env.BP_JVM_VERSION</name>
                     <value>21</value>
                 </property>
+                
             </activation>
             <build>
                 <plugins>
